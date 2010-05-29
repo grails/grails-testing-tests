@@ -1,0 +1,39 @@
+apply plugin: "groovy"
+
+repositories {
+  mavenCentral()
+  mavenRepo urls: "http://m2repo.spockframework.org/snapshots"
+}
+  
+dependencies {
+  groovy "org.codehaus.groovy:groovy-all:1.7.2"
+  compile "org.spockframework:spock-core:0.4-groovy-1.7"
+  compile "junit:junit:4.8.1"  
+}
+
+test.doFirst {
+	systemProperties['buildDir'] = buildDir.canonicalPath
+	systemProperties['testClassesDir'] = sourceSets.test.classesDir.canonicalPath
+	systemProperties['grailsHome'] = System.properties['grails.home'] ?: new File('../grails-core').absolutePath
+	
+	def grailsWorkDir = new File(buildDir, 'grails-work')
+	grailsWorkDir.deleteDir()
+	assert grailsWorkDir.mkdirs()
+	systemProperties['grailsWorkDir'] =  grailsWorkDir.canonicalPath
+
+	def projectWorkDir = new File(buildDir, 'project-work')
+	projectWorkDir.deleteDir()
+	assert projectWorkDir.mkdirs()
+	systemProperties['projectWorkDir'] = projectWorkDir.canonicalPath
+
+	def outputDir = new File(buildDir, 'output')
+	outputDir.deleteDir()
+	assert outputDir.mkdirs()
+	systemProperties['outputDir'] = outputDir.canonicalPath
+	
+	def sourceProjectsDir = new File(sourceSets.test.classesDir, 'projects')
+	sourceProjectsDir.eachDir {
+		assert it.renameTo(new File(projectWorkDir, it.name))
+	}
+	
+}
