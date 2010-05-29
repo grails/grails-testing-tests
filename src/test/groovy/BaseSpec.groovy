@@ -26,6 +26,8 @@ abstract class BaseSpec extends Specification {
 	def exitStatus
 	def output
 	def dumpCounter = 0
+
+	@Rule testName = new TestName()
 	
 	def execute(String project, String[] command) {
 		if (!(project in upgradedProjects)) { upgradeProject(project) }
