@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-gradle test
+gradle -s test -Ptp=PassingTestsSpec*

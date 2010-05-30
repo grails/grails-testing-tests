@@ -25,7 +25,7 @@ abstract class BaseSpec extends Specification {
 	def command
 	def exitStatus
 	def output
-	def dumpCounter = 0
+	@Shared dumpCounter = 0
 
 	@Rule testName = new TestName()
 	
@@ -49,12 +49,12 @@ abstract class BaseSpec extends Specification {
 		exitStatus = process.exitValue()
 		output = outputBuffer.toString()
 		dumpOutput()
-		exitStatus == 0
+		exitStatus
 	}
 
 	def upgradeProject(project) {
 		upgradedProjects << project
-		assert execute(project, 'upgrade', '--force')
+		assert execute(project, 'upgrade', '--force') == 0
 		assertHeader()
 	}
 

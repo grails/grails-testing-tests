@@ -1,4 +1,5 @@
-apply plugin: "groovy"
+/*apply plugin: "groovy"*/
+usePlugin 'groovy'
 
 repositories {
   mavenCentral()
@@ -12,28 +13,27 @@ dependencies {
 }
 
 test.doFirst {
-	systemProperties['buildDir'] = buildDir.canonicalPath
-	systemProperties['testClassesDir'] = sourceSets.test.classesDir.canonicalPath
-	systemProperties['grailsHome'] = System.properties['grails.home'] ?: new File('../grails-core').absolutePath
-	
-	def grailsWorkDir = new File(buildDir, 'grails-work')
-	grailsWorkDir.deleteDir()
-	assert grailsWorkDir.mkdirs()
-	systemProperties['grailsWorkDir'] =  grailsWorkDir.canonicalPath
-
-	def projectWorkDir = new File(buildDir, 'project-work')
-	projectWorkDir.deleteDir()
-	assert projectWorkDir.mkdirs()
-	systemProperties['projectWorkDir'] = projectWorkDir.canonicalPath
-
-	def outputDir = new File(buildDir, 'output')
-	outputDir.deleteDir()
-	assert outputDir.mkdirs()
-	systemProperties['outputDir'] = outputDir.canonicalPath
-	
-	def sourceProjectsDir = new File(sourceSets.test.classesDir, 'projects')
-	sourceProjectsDir.eachDir {
-		assert it.renameTo(new File(projectWorkDir, it.name))
-	}
-	
+    def grailsWorkDir = new File(buildDir, 'grails-work')
+    def projectWorkDir = new File(buildDir, 'project-work')
+    def outputDir = new File(buildDir, 'output')
+    [grailsWorkDir, projectWorkDir, outputDir].each {
+        it.deleteDir()
+        assert it.mkdirs()
+    }
+    
+    copy {
+        from 'src/test/resources/projects'
+        into projectWorkDir
+     }
+     
+    test.options.systemProperties['buildDir'] = buildDir.canonicalPath
+    test.options.systemProperties['testClassesDir'] = sourceSets.test.classesDir.canonicalPath
+    test.options.systemProperties['grailsHome'] = System.properties['grails.home'] ?: new File('../grails-core').absolutePath
+    test.options.systemProperties['projectWorkDir'] = projectWorkDir.canonicalPath
+    test.options.systemProperties['grailsWorkDir'] =  grailsWorkDir.canonicalPath
+    test.options.systemProperties['outputDir'] = outputDir.canonicalPath    
+    
+    if (project.hasProperty('tp')) {
+        test.include tp
+    }
 }
