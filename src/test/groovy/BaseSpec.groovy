@@ -55,7 +55,7 @@ abstract class BaseSpec extends Specification {
 	def upgradeProject(project) {
 		upgradedProjects << project
 		assert execute(project, 'upgrade', '--force') == 0
-		assertHeader()
+		assert output.contains('Project upgraded')
 	}
 
 	def assertHeader() {
