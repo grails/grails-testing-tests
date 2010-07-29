@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="1" failures="0" hostname="modius.local" name="BeforeClassErrorsTests" tests="0" time="0.023" timestamp="2010-07-29T01:00:06">
+  <properties />
+  <testcase classname="junit.framework.JUnit4TestCaseFacade" name="BeforeClassErrorsTests" time="0.0010">
+    <error message="Bang!!!!!!!!!!!" type="java.lang.Exception">java.lang.Exception: Bang!!!!!!!!!!!
+	at BeforeClassErrorsTests.doit(BeforeClassErrorsTests.groovy:7)
+	at TestApp$_run_closure4.doCall(TestApp:268)
+	at TestApp$_run_closure4.call(TestApp)
+	at TestApp$_run_closure2.doCall(TestApp:225)
+	at TestApp$_run_closure1_closure21.doCall(TestApp:184)
+	at TestApp$_run_closure1.doCall(TestApp:171)
+	at TestApp$_run_closure1.doCall(TestApp.groovy:101)
+	at gant.Gant$_dispatch_closure5.doCall(Gant.groovy:381)
+	at gant.Gant$_dispatch_closure7.doCall(Gant.groovy:415)
+	at gant.Gant$_dispatch_closure7.doCall(Gant.groovy)
+	at gant.Gant.withBuildListeners(Gant.groovy:427)
+	at gant.Gant.this$2$withBuildListeners(Gant.groovy)
+	at gant.Gant$this$2$withBuildListeners.callCurrent(Unknown Source)
+	at gant.Gant.dispatch(Gant.groovy:415)
+	at gant.Gant.this$2$dispatch(Gant.groovy)
+	at gant.Gant.invokeMethod(Gant.groovy)
+	at gant.Gant.executeTargets(Gant.groovy:590)
+	at gant.Gant.executeTargets(Gant.groovy:589)
+</error>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
