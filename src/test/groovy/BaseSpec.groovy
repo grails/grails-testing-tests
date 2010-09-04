@@ -29,23 +29,26 @@ abstract class BaseSpec extends Specification {
 
 	@Rule testName = new TestName()
 	
-	def execute(String project, String[] command) {
+	def createProcess(String project, String[] command) {
 		if (!(project in upgradedProjects)) { upgradeProject(project) }
-		this.command = command
+		
 		def completeCommand = ["${grailsHome}/bin/grails", "-Dgrails.work.dir=${grailsWorkDir}"]
 		completeCommand.addAll(command.toList())
-
-		def process = new ProcessBuilder(completeCommand as String[]).with {
+		
+		new ProcessBuilder(completeCommand as String[]).with {
 			redirectErrorStream(true)
 			directory(new File(projectWorkDir, project))
 			environment()["GRAILS_HOME"] = grailsHome
 			start()
 		}
-		
+	}
+	
+	def execute(String project, String[] command) {
+		this.command = command
+		def process = createProcess(project, *command)
 		def outputBuffer = new StringBuffer()
 		process.consumeProcessOutputStream(outputBuffer)
 		process.waitForOrKill(PROCESS_TIMEOUT_MILLS)
-		
 		exitStatus = process.exitValue()
 		output = outputBuffer.toString()
 		dumpOutput()
