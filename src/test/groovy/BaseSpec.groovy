@@ -29,11 +29,11 @@ abstract class BaseSpec extends Specification {
 
 	@Rule testName = new TestName()
 	
-	def createProcess(String project, String[] command) {
+	def createProcess(String project, CharSequence[] command) {
 		if (!(project in upgradedProjects)) { upgradeProject(project) }
 		
 		def completeCommand = ["${grailsHome}/bin/grails", "-Dgrails.work.dir=${grailsWorkDir}"]
-		completeCommand.addAll(command.toList())
+		completeCommand.addAll(command.toList()*.toString())
 		
 		new ProcessBuilder(completeCommand as String[]).with {
 			redirectErrorStream(true)
@@ -43,7 +43,7 @@ abstract class BaseSpec extends Specification {
 		}
 	}
 	
-	def execute(String project, String[] command) {
+	def execute(String project, CharSequence[] command) {
 		this.command = command
 		def process = createProcess(project, *command)
 		def outputBuffer = new StringBuffer()
@@ -69,7 +69,8 @@ abstract class BaseSpec extends Specification {
 	}
 	
 	private dumpOutput() {
-		def outputLabel = "${this.class.simpleName}-${testName.methodName}-${dumpCounter++}-${command.join('_')}"
+	    def commandName = command.join('_').replace('/', '?')
+		def outputLabel = "${this.class.simpleName}-${testName.methodName}-${dumpCounter++}-${commandName}"
 		new File(outputDir, "${outputLabel}.txt") << output
 		println outputLabel
 		println output
