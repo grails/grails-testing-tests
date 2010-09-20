@@ -5,7 +5,7 @@ repositories {
   mavenCentral()
   mavenRepo urls: "http://m2repo.spockframework.org/snapshots"
 }
-  
+
 configurations {
   testCompile.transitive = true
 }
@@ -13,7 +13,7 @@ configurations {
 dependencies {
   groovy "org.codehaus.groovy:groovy-all:1.7.2"
   compile "org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT"
-  compile "junit:junit:4.8.1"  
+  compile "junit:junit:4.8.1"
   testCompile "org.mortbay.jetty:jetty:6.1.21"
 }
 
@@ -25,19 +25,19 @@ test.doFirst {
         it.deleteDir()
         assert it.mkdirs()
     }
-    
+
     copy {
         from 'src/test/resources/projects'
         into projectWorkDir
      }
-     
+
     test.options.systemProperties['buildDir'] = buildDir.canonicalPath
     test.options.systemProperties['testClassesDir'] = sourceSets.test.classesDir.canonicalPath
     test.options.systemProperties['grailsHome'] = System.properties['grails.home'] ?: new File('../grails-core').absolutePath
     test.options.systemProperties['projectWorkDir'] = projectWorkDir.canonicalPath
     test.options.systemProperties['grailsWorkDir'] =  grailsWorkDir.canonicalPath
-    test.options.systemProperties['outputDir'] = outputDir.canonicalPath    
-    
+    test.options.systemProperties['outputDir'] = outputDir.canonicalPath
+
     if (project.hasProperty('tp')) {
         test.include "**/${tp}Spec.*"
     }
