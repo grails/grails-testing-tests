@@ -9,7 +9,7 @@ class FunctionalSpec extends BaseSpec {
         exitStatus == 0
     }
 
-    @Ignore("waiting for GRAILS-6688")
+/*    @IgnoreRest*/
     @Timeout(300)
     def "basic functional against war"() {
         when:
@@ -17,7 +17,6 @@ class FunctionalSpec extends BaseSpec {
         then:
         exitStatus == 0
     }
-    
 
     def "against different base url"() {
         given:
@@ -35,7 +34,8 @@ class FunctionalSpec extends BaseSpec {
         cleanup:
         server.stop()
     }
-    
+
+    @Timeout(300)
     def "war with base url"() {
         when:
         execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'the.testIsWarDeployed', '-baseUrl=http://localhost:8080/functional/', '-war') 
