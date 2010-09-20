@@ -12,7 +12,7 @@ configurations {
 
 dependencies {
   groovy "org.codehaus.groovy:groovy-all:1.7.2"
-  compile "org.spockframework:spock-core:0.5-groovy-1.7-SNAPSHOT"
+  compile "org.spockframework:spock-core:0.4-groovy-1.7"
   compile "junit:junit:4.8.1"
   testCompile "org.mortbay.jetty:jetty:6.1.21"
 }
