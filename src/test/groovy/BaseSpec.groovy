@@ -5,6 +5,7 @@ import org.junit.rules.TestName
 
 abstract class BaseSpec extends Specification {
 
+	static PORT = 8184
 	static PROCESS_TIMEOUT_MILLS = 1000 * 60 * 5 // 5 minutes
 	static upgradedProjects = []
 	
@@ -32,7 +33,7 @@ abstract class BaseSpec extends Specification {
 	def createProcess(String project, CharSequence[] command) {
 		if (!(project in upgradedProjects)) { upgradeProject(project) }
 		
-		def completeCommand = ["${grailsHome}/bin/grails", "-Dgrails.work.dir=${grailsWorkDir}"]
+		def completeCommand = ["${grailsHome}/bin/grails", "-Dserver.port=${PORT}", "-Dgrails.work.dir=${grailsWorkDir}"]
 		completeCommand.addAll(command.toList()*.toString())
 		
 		new ProcessBuilder(completeCommand as String[]).with {
