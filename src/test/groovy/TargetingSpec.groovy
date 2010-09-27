@@ -11,6 +11,26 @@ class TargetingSpec extends BaseSpec {
         output.contains("Running 2 unit tests...\nRunning test AllPassingTests...PASSED")
     }
 
+    @Issue("GRAILS-6462")
+    def "run a single test - via full class name"() {
+        when:
+        execute('targeting', 'test-app', 'AllPassingTests') 
+    
+        then:
+        exitStatus == 0
+        output.contains("Running 2 unit tests...\nRunning test AllPassingTests...PASSED")
+    }
+
+    @Issue("GRAILS-6462")
+    def "run a single test method - via full class name"() {
+        when:
+        execute('targeting', 'test-app', 'AllPassingTests.testPassing') 
+    
+        then:
+        exitStatus == 0
+        output.contains("Running 1 unit test...\nRunning test AllPassingTests...PASSED")
+    }
+
     def "run a single test method"() {
         when:
         execute('targeting', 'test-app', 'OnePassingOneFailing.testPassing')
