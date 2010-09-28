@@ -9,7 +9,7 @@ class TheTests extends GroovyTestCase {
 	}
 	
 	void testIsWarDeployed() {
-		assert new URL(getActionUrl('scope')).text == System.properties.warDeployed
+		assert new URL(getActionUrl('warDeployed')).text == System.properties.warDeployed
 	}
 	
 	void testProperty() {

@@ -29,3 +29,6 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.5'
     }
 }
+
+grails.tomcat.jvmArgs = ["-Xmx1024m"]
+grails.tomcat.startupTimeoutSecs = 300

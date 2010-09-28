@@ -4,16 +4,15 @@ class FunctionalSpec extends BaseSpec {
     
     def "basic functional against local server"() {
         when:
-        execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'the.testIsWarDeployed') 
+        execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'The.testIsWarDeployed') 
         then:
         exitStatus == 0
     }
 
-/*    @IgnoreRest*/
     @Timeout(300)
     def "basic functional against war"() {
         when:
-        execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'the.testIsWarDeployed', '-war') 
+        execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'The.testIsWarDeployed', '-war') 
         then:
         exitStatus == 0
     }
@@ -27,7 +26,7 @@ class FunctionalSpec extends BaseSpec {
         }
         
         when:
-        execute('functional', '-Dp=a', 'test-app', 'functional:', 'the.testProperty', "-baseUrl=$server.baseUrl")
+        execute('functional', '-Dp=a', 'test-app', 'functional:', 'The.testProperty', "-baseUrl=$server.baseUrl")
         then:
         exitStatus == 0
         
@@ -38,14 +37,14 @@ class FunctionalSpec extends BaseSpec {
     @Timeout(300)
     def "war with base url"() {
         when:
-        execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'the.testIsWarDeployed', '-baseUrl=http://localhost:8080/functional/', '-war') 
+        execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'The.testIsWarDeployed', "-baseUrl=http://localhost:${PORT}/functional/", '-war') 
         then:
         exitStatus == 0
     }
     
     def "inline with base url"() {
         when:
-        execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'the.testIsWarDeployed', '-baseUrl=http://localhost:8080/functional/', '-inline') 
+        execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'The.testIsWarDeployed', "-baseUrl=http://localhost:${PORT}/functional/", '-inline') 
         then:
         exitStatus == 0
     }
