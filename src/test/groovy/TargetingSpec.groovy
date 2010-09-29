@@ -51,4 +51,22 @@ class TargetingSpec extends BaseSpec {
         output.contains("Running 2 unit tests...")
     }
 
+    @Issue("GRAILS-6764")
+    void "classes not ending in the suffixes should not be picked"() {
+        when:
+        execute('targeting', 'test-app', 'unit:unit')
+        
+        then:
+        !output.contains("SomeOtherThing")
+    }
+
+    @Issue("GRAILS-6764")
+    void "cant target non test classes"() {
+        when:
+        execute('targeting', 'test-app', 'SomeOtherThing')
+        
+        then:
+        !output.contains("SomeOtherThing")
+    }
+    
 }
