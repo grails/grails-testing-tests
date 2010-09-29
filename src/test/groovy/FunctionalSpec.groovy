@@ -34,7 +34,6 @@ class FunctionalSpec extends BaseSpec {
         server.stop()
     }
 
-    @IgnoreRest
     @Timeout(300)
     def "war with base url"() {
         when:
