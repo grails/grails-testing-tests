@@ -6,7 +6,7 @@ class FunctionalSpec extends BaseSpec {
         when:
         execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'The.testIsWarDeployed') 
         then:
-        exitStatus == 0
+        getOutput() isSuccessfulTestRun()
     }
 
     @Timeout(300)
@@ -28,7 +28,7 @@ class FunctionalSpec extends BaseSpec {
         when:
         execute('functional', '-Dp=a', 'test-app', 'functional:', 'The.testProperty', "-baseUrl=$server.baseUrl")
         then:
-        exitStatus == 0
+        getOutput() isSuccessfulTestRun()
         
         cleanup:
         server.stop()
@@ -39,14 +39,14 @@ class FunctionalSpec extends BaseSpec {
         when:
         execute('functional', '-DwarDeployed=true', 'test-app', 'functional:', 'The.testIsWarDeployed', "-baseUrl=http://localhost:${PORT}/functional/", '-war') 
         then:
-        exitStatus == 0
+         getOutput() isSuccessfulTestRun()
     }
     
     def "inline with base url"() {
         when:
         execute('functional', '-DwarDeployed=false', 'test-app', 'functional:', 'The.testIsWarDeployed', "-baseUrl=http://localhost:${PORT}/functional/", '-inline') 
         then:
-        exitStatus == 0
+        getOutput() isSuccessfulTestRun()
     }
     
 }
