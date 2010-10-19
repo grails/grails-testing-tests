@@ -2,6 +2,10 @@ import spock.lang.*
 
 import org.junit.Rule
 import org.junit.rules.TestName
+import org.hamcrest.Matcher
+import org.hamcrest.Matchers
+import org.hamcrest.BaseMatcher
+import org.hamcrest.Description
 
 abstract class BaseSpec extends Specification {
 
@@ -75,5 +79,29 @@ abstract class BaseSpec extends Specification {
 		new File(outputDir, "${outputLabel}.txt") << output
 		println outputLabel
 		println output
+	}
+	
+	def isSuccessfulTestRun() {
+		allOf(looksLikeTestsDidRun(), hasNoTestFailures())
+	}
+	
+	def looksLikeTestsDidRun() {
+		matcher("should contain 'Tests passed: '") { it.contains('Tests passed: ') }
+	}
+	
+	def hasNoTestFailures() {
+		matcher("should not contain 'Tests failed: [1-9]'") { !(it.readLines().any { it ==~ ~/^Tests failed: [1-9].*$/ }) }
+	}
+	
+	private Matcher matcher(String describeTo, Closure matches) {
+		matcher({ Description description -> description.appendText(describeTo) }, matches)
+	}	
+
+	private Matcher matcher(Closure describeTo, Closure matches) {
+		[describeTo: describeTo, matches: matches] as BaseMatcher
+	}
+	
+	private Matcher allOf(Matcher[] all) {
+		Matchers.allOf(all)
 	}
 }
