@@ -37,7 +37,7 @@ abstract class BaseSpec extends Specification {
 	def createProcess(String project, CharSequence[] command) {
 		if (!(project in upgradedProjects)) { upgradeProject(project) }
 		
-		def completeCommand = ["${grailsHome}/bin/grails", "-Dserver.port=${PORT}", "-Dgrails.work.dir=${grailsWorkDir}"]
+		def completeCommand = ["${grailsHome}/bin/grails", "-Dgrails.server.port.http=${PORT}", "-Dgrails.work.dir=${grailsWorkDir}"]
 		completeCommand.addAll(command.toList()*.toString())
 		
 		new ProcessBuilder(completeCommand as String[]).with {
