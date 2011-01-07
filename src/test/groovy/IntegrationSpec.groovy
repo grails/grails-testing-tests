@@ -1,6 +1,6 @@
 import spock.lang.*
 
-import static spock.util.matcher.MatcherSupport.that
+import static spock.util.matcher.HamcrestSupport.that
 
 class IntegrationSpec extends BaseSpec {
     
