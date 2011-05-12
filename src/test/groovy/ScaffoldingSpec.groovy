@@ -8,7 +8,7 @@ class ScaffoldingSpec extends BaseSpec {
 		exitStatus == 0
 		output.contains("Running test scaffolding.ItemControllerTests...PASSED")
         output.contains("""-------------------------------------------------------
-Tests passed: 9
+Tests passed: 8
 Tests failed: 0
 -------------------------------------------------------""")
 	}
