@@ -6,10 +6,6 @@ class ScaffoldingSpec extends BaseSpec {
 		execute('scaffolding', 'test-app', ':unit')
 		then:
 		exitStatus == 0
-		output.contains("Running test scaffolding.ItemControllerTests...PASSED")
-        output.contains("""-------------------------------------------------------
-Tests passed: 8
-Tests failed: 0
--------------------------------------------------------""")
+		getOutput() isSuccessfulTestRun()
 	}
 }

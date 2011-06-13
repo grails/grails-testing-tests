@@ -6,13 +6,6 @@ class ErrorHandlingSpec extends BaseSpec {
 		execute('errors', 'test-app', 'BeforeClassErrors')
 		then:
 		exitStatus == 1
-		output.contains("""-------------------------------------------------------
-Running 1 unit test...
-Running test BeforeClassErrorsTests...
-                    null...FAILED""")
-        output.contains("""-------------------------------------------------------
-Tests passed: -1
-Tests failed: 1
--------------------------------------------------------""")
+		getOutput() isFailedTestRun()
 	}
 }

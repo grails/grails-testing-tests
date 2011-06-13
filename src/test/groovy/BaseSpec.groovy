@@ -49,8 +49,8 @@ abstract class BaseSpec extends Specification {
 	}
 	
 	def execute(String project, CharSequence[] command) {
-		this.command = command
-		def process = createProcess(project, *command)
+		this.command = command.toList() + "--plainOutput"
+		def process = createProcess(project, *this.command)
 		def outputBuffer = new StringBuffer()
 		process.consumeProcessOutputStream(outputBuffer)
 		process.waitForOrKill(PROCESS_TIMEOUT_MILLS)
@@ -62,7 +62,7 @@ abstract class BaseSpec extends Specification {
 
 	def upgradeProject(project) {
 		upgradedProjects << project
-		assert execute(project, 'upgrade', '--non-interactive') == 0
+		assert execute(project, 'upgrade', '--nonInteractive') == 0
 		assert output.contains('Project upgraded')
 	}
 
@@ -82,15 +82,11 @@ abstract class BaseSpec extends Specification {
 	}
 	
 	def isSuccessfulTestRun() {
-		allOf(looksLikeTestsDidRun(), hasNoTestFailures())
+		matcher("should contain 'Tests PASSED'") { it.contains('Tests PASSED') }
 	}
-	
-	def looksLikeTestsDidRun() {
-		matcher("should contain 'Tests passed: '") { it.contains('Tests passed: ') }
-	}
-	
-	def hasNoTestFailures() {
-		matcher("should not contain 'Tests failed: [1-9]'") { !(it.readLines().any { it ==~ ~/^Tests failed: [1-9].*$/ }) }
+		
+	def isFailedTestRun() {
+		matcher("should contain 'Tests FAILED'") { it.contains('Tests FAILED') }
 	}
 	
 	private Matcher matcher(String describeTo, Closure matches) {

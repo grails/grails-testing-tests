@@ -8,7 +8,8 @@ class TargetingSpec extends BaseSpec {
     
         then:
         exitStatus == 0
-        output.contains("Running 2 unit tests...\nRunning test AllPassingTests...PASSED")
+        output.contains("Running 2 unit tests...")
+        getOutput() isSuccessfulTestRun()
     }
 
     @Issue("GRAILS-6462")
@@ -18,7 +19,8 @@ class TargetingSpec extends BaseSpec {
     
         then:
         exitStatus == 0
-        output.contains("Running 2 unit tests...\nRunning test AllPassingTests...PASSED")
+        output.contains("Running 2 unit tests...")
+        getOutput() isSuccessfulTestRun()
     }
 
     @Issue("GRAILS-6462")
@@ -28,7 +30,8 @@ class TargetingSpec extends BaseSpec {
     
         then:
         exitStatus == 0
-        output.contains("Running 1 unit test...\nRunning test AllPassingTests...PASSED")
+        output.contains("Running 1 unit test...")
+        getOutput() isSuccessfulTestRun()
     }
 
     def "run a single test method"() {
@@ -37,7 +40,8 @@ class TargetingSpec extends BaseSpec {
         
         then:
         exitStatus == 0
-        output.contains("Running 1 unit test...\nRunning test OnePassingOneFailingTests...PASSED")
+        output.contains("Running 1 unit test...")
+        getOutput() isSuccessfulTestRun()
     }
 
     def "run a single method of two different tests"() {
@@ -57,7 +61,7 @@ class TargetingSpec extends BaseSpec {
         execute('targeting', 'test-app', 'unit:unit')
         
         then:
-        !output.contains("SomeOtherThing")
+        !output.contains("unit tests")
     }
 
     @Issue("GRAILS-6764")
@@ -66,7 +70,8 @@ class TargetingSpec extends BaseSpec {
         execute('targeting', 'test-app', 'SomeOtherThing')
         
         then:
-        !output.contains("SomeOtherThing")
+        output.contains("Completed 4 unit tests, 1 failed")
+        
     }
     
 }
