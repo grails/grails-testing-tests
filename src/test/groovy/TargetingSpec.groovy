@@ -61,7 +61,7 @@ class TargetingSpec extends BaseSpec {
         execute('targeting', 'test-app', 'unit:unit')
         
         then:
-        !output.contains("unit tests")
+        !output.contains("Completed 4 unit tests, 1 failed") // AllPassingTests and OnePassingOneFailingTests have two each, hence 4
     }
 
     @Issue("GRAILS-6764")

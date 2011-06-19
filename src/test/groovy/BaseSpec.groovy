@@ -62,7 +62,7 @@ abstract class BaseSpec extends Specification {
 
 	def upgradeProject(project) {
 		upgradedProjects << project
-		assert execute(project, 'upgrade', '--nonInteractive') == 0
+		assert execute(project, 'upgrade', '--non-interactive') == 0
 		assert output.contains('Project upgraded')
 	}
 
