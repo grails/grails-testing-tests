@@ -29,6 +29,10 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.5'
         runtime 'hsqldb:hsqldb:1.8.0.10'
     }
+    plugins {
+        compile ":hibernate:$grailsVersion"
+        compile ":tomcat:$grailsVersion"
+    }
 }
 
 grails.tomcat.jvmArgs = ["-Xmx1024m"]
