@@ -70,8 +70,7 @@ class TargetingSpec extends BaseSpec {
         execute('targeting', 'test-app', 'SomeOtherThing')
         
         then:
-        output.contains("Completed 4 unit tests, 1 failed")
-        
+        getOutput() isSuccessfulTestRun()
     }
     
 }
