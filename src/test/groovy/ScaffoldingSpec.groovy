@@ -5,7 +5,7 @@ class ScaffoldingSpec extends BaseSpec {
 		when:
 		execute('scaffolding', 'test-app', ':unit')
 		then:
-		exitStatus == 0
-		getOutput() isSuccessfulTestRun()
+        exitStatus == 1
+        output.contains("Completed 8 unit tests, 3 failed")
 	}
 }
