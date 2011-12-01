@@ -5,46 +5,45 @@ package scaffolding
 import org.junit.*
 import grails.test.mixin.*
 
-
 @TestFor(ItemController)
 @Mock(Item)
 class ItemControllerTests {
 
 
-    @Test
+    def populateValidParams(params) {
+      assert params != null
+      // TODO: Populate valid properties like...
+      //params["name"] = 'someValidName'
+    }
+
     void testIndex() {
         controller.index()
         assert "/item/list" == response.redirectedUrl
     }
 
-    @Test
     void testList() {
 
         def model = controller.list()
 
         assert model.itemInstanceList.size() == 0
         assert model.itemInstanceTotal == 0
-
     }
 
-    @Test
     void testCreate() {
        def model = controller.create()
 
        assert model.itemInstance != null
-
-
     }
 
-    @Test
     void testSave() {
         controller.save()
 
         assert model.itemInstance != null
         assert view == '/item/create'
 
-		params.title = 'The Item'
+        response.reset()
 
+        populateValidParams(params)
         controller.save()
 
         assert response.redirectedUrl == '/item/show/1'
@@ -52,8 +51,6 @@ class ItemControllerTests {
         assert Item.count() == 1
     }
 
-
-    @Test
     void testShow() {
         controller.show()
 
@@ -61,7 +58,8 @@ class ItemControllerTests {
         assert response.redirectedUrl == '/item/list'
 
 
-        def item = new Item(title:"The Item")
+        populateValidParams(params)
+        def item = new Item(params)
 
         assert item.save() != null
 
@@ -72,7 +70,6 @@ class ItemControllerTests {
         assert model.itemInstance == item
     }
 
-    @Test
     void testEdit() {
         controller.edit()
 
@@ -80,7 +77,8 @@ class ItemControllerTests {
         assert response.redirectedUrl == '/item/list'
 
 
-        def item = new Item(title:"The Item")
+        populateValidParams(params)
+        def item = new Item(params)
 
         assert item.save() != null
 
@@ -91,9 +89,7 @@ class ItemControllerTests {
         assert model.itemInstance == item
     }
 
-    @Test
     void testUpdate() {
-
         controller.update()
 
         assert flash.message != null
@@ -102,13 +98,14 @@ class ItemControllerTests {
         response.reset()
 
 
-        def item = new Item(title:"The Item")
+        populateValidParams(params)
+        def item = new Item(params)
 
         assert item.save() != null
 
         // test invalid parameters in update
         params.id = item.id
-		params.title = ''
+        //TODO: add invalid values to params object
 
         controller.update()
 
@@ -117,24 +114,36 @@ class ItemControllerTests {
 
         item.clearErrors()
 
-		params.title = 'The Item'
-
+        populateValidParams(params)
         controller.update()
 
         assert response.redirectedUrl == "/item/show/$item.id"
         assert flash.message != null
+
+        //test outdated version number
+        response.reset()
+        item.clearErrors()
+
+        populateValidParams(params)
+        params.id = item.id
+        params.version = -1
+        controller.update()
+
+        assert view == "/item/edit"
+        assert model.itemInstance != null
+        assert model.itemInstance.errors.getFieldError('version')
+        assert flash.message != null
     }
 
-    @Test
     void testDelete() {
         controller.delete()
-
         assert flash.message != null
         assert response.redirectedUrl == '/item/list'
 
         response.reset()
 
-        def item = new Item(title:"The Item")
+        populateValidParams(params)
+        def item = new Item(params)
 
         assert item.save() != null
         assert Item.count() == 1
@@ -146,9 +155,5 @@ class ItemControllerTests {
         assert Item.count() == 0
         assert Item.get(item.id) == null
         assert response.redirectedUrl == '/item/list'
-
-
     }
-
-
 }
