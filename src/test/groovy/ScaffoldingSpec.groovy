@@ -1,11 +1,16 @@
 import spock.lang.*
 
 class ScaffoldingSpec extends BaseSpec {
-	void "failing before class methods should be handled"() {
+	void 'scaffolded controller test fails before TODOs are accounted for'() {
+	    when:
+	    execute 'scaffolding', 'generate-controller', 'scaffolding.Item'
+	    then:
+	    exitStatus == 0
+	    
 		when:
-		execute('scaffolding', 'test-app', ':unit')
+		execute 'scaffolding', 'test-app', ':unit'
 		then:
-        exitStatus == 1
-        output.contains("Completed 8 unit tests, 5 failed")
+        exitStatus != 0
+        output.contains "Completed 8 unit tests, 5 failed"
 	}
 }
