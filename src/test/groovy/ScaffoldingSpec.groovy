@@ -6,6 +6,6 @@ class ScaffoldingSpec extends BaseSpec {
 		execute('scaffolding', 'test-app', ':unit')
 		then:
         exitStatus == 1
-        output.contains("Completed 8 unit tests, 3 failed")
+        output.contains("Completed 8 unit tests, 5 failed")
 	}
 }
